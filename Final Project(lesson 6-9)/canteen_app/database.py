@@ -88,7 +88,7 @@ def add_user(conn, username, password, role, student_id=None):
     salt = secrets.token_hex(16)
     conn.execute("INSERT INTO users (username, password_hash, salt, role, student_id) VALUES (?, ?, ?, ?, ?)",
                  (username, hash_password(password, salt), salt, role, student_id))
-    conn.commit
+    conn.commit()
 
 
 def login(conn, username, password):
@@ -116,11 +116,11 @@ def add(conn, kind, name, allergens):
 
 
 def allergens_of(conn, kind, row_id):
-    rows = conn.execute(f"SELECT a.name FROM {kind}_allergens x JOIN allergens a ON a.id = x.allergen_id"
+    rows = conn.execute(f"SELECT a.name FROM {kind}_allergens x JOIN allergens a ON a.id = x.allergen_id "
                         f"WHERE x.{kind}_id = ?", (row_id,))
-    row_names = []
+    row_names = set()
     for row in rows:
-        row_names.append(row["name"])
+        row_names.add(row["name"])
 
     return row_names
 
@@ -130,8 +130,8 @@ def list_all(conn, kind):
 
 
 def assigned_meal(conn, student_id):
-    return conn.execute("SELECT m.* FROM assignments a JOIN meals m ON m.id = a.meal_id"
-                        "WHERE a.student_id = ?", (student_id)).fetchone()
+    return conn.execute("SELECT m.* FROM assignments a JOIN meals m ON m.id = a.meal_id "
+                        "WHERE a.student_id = ?", (student_id,)).fetchone()
 
 
 def save_assignment(conn, student_id, meal_id):

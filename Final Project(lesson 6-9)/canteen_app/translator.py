@@ -8,7 +8,7 @@ def allergen(name):
     if(name in ALLERGEN_NAMES):
         return ALLERGEN_NAMES[name][current]
     else:
-        name
+        return name
 
 TEXTS = {
     "title": ("Canteen Allergy Manager", "Yeməkxana Allergiya Meneceri", "Менеджер аллергий столовой"),

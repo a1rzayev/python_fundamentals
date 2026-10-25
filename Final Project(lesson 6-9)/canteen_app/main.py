@@ -13,20 +13,23 @@ class App:
         self.show_screen()
 
     def show_screen(self):
-        if(self.screen == True):
+        typed = ("", "")
+        if(isinstance(self.screen, ui.LoginScreen)):
+            typed = (self.screen.username.get(), self.screen.password.get())
+        if(self.screen is not None):
             self.screen.destroy()
         if(self.user is None):
-            self.screen = ui.LoginScreen(self.root, self)
+            self.screen = ui.LoginScreen(self.root, self, *typed)
         elif(self.user["role"] == "staff"):
             self.screen = ui.StaffScreen(self.root, self)
         else:
             self.screen = ui.StudentScreen(self.root, self)
-        self.screen.pack(fill="both", expand="True")
+        self.screen.pack(fill="both", expand=True)
         self.root.title(translator.translate("title"))
 
     def login(self, user):
         self.user = user
-        self.show_screen
+        self.show_screen()
 
     def logout(self):
         self.user = None

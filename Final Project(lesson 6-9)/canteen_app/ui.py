@@ -15,7 +15,7 @@ def top_bar(frame, app, title):
     bar = ttk.Frame(frame)
     bar.pack(fill="x", pady=(0, 8))
     ttk.Label(bar, text=title, font="TkHeadingFont").pack(side="left")
-    if(app.user == True):
+    if(app.user is not None):
         ttk.Button(bar, text=translate("logout"), command=app.logout).pack(side="right")
     box = ttk.Combobox(bar, values=translator.LANGUAGES, state="readonly", width=13)
     box.current(translator.current)
@@ -39,14 +39,14 @@ def allergen_text(names):
 
 
 class LoginScreen(ttk.Frame):
-    def __init__(self, parent, app):
+    def __init__(self, parent, app, username="", password=""):
         super().__init__(parent, padding=20)
         self.app = app
         top_bar(self, app, translate("title"))
         form = ttk.Frame(self)
         form.pack(expand=True)
-        self.username = tkinter.StringVar()
-        self.password = tkinter.StringVar()
+        self.username = tkinter.StringVar(value=username)
+        self.password = tkinter.StringVar(value=password)
         ttk.Label(form, text=translate("username")).grid(row=0, column=0, sticky="e", pady=4)
         user_entry = ttk.Entry(form, textvariable=self.username)
         user_entry.grid(row=0, column=1, pady=4)
@@ -189,6 +189,6 @@ class StudentScreen(ttk.Frame):
         top_bar(self, app, name)
         meal = database.assigned_meal(conn, student_id)
         ttk.Label(self, text=translate("your_meal")).pack(anchor="w")
-        ttk.Label(self, text=meal["name"] if meal else transa("no_meal"), font="TkHeadingFont").pack(anchor="w", pady=(0, 12))
+        ttk.Label(self, text=meal["name"] if meal else translate("no_meal"), font="TkHeadingFont").pack(anchor="w", pady=(0, 12))
         ttk.Label(self, text=translate("your_allergies")).pack(anchor="w")
         ttk.Label(self, text=allergen_text(database.allergens_of(conn, "student", student_id))).pack(anchor="w")
