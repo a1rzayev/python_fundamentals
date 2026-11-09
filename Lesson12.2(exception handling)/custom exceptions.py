@@ -11,3 +11,8 @@ try:
 
 except InsufficientBalanceException as IBE:
     print(IBE)
+
+x = 5.0
+
+if(type(x) != type(0.0)):
+    print("not float")
