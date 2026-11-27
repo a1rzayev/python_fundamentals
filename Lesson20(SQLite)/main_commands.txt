@@ -1,0 +1,6 @@
+CRUD - 4 main principles in database working
+
+C - Create (create table or something else)
+R - Read   (reading table or something else)
+U - Update (updating table or something else)
+D - Delete (deleting table or something else)
